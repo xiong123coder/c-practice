@@ -1,8 +1,9 @@
 #include<stdio.h>
 int gcd(int a,int b)
-{//a=2 b=5 b%a=1
- //a=1 b=2 b%a=0
- //a=0 b=1
+{   if((a||b))
+    {
+    if(a==0)return b;
+    if(b==0)return a;
     while(a!=0)
     {
         int temp=b%a;
@@ -10,17 +11,23 @@ int gcd(int a,int b)
         a=temp;        
     }
     return b;
+    }
+    printf("gcd的x形参不能都是0");
 }
 int lcm(int a,int b)
-{
+{   
+    if(gcd(a,b))
+    {
     int result=(b*a)/gcd(a,b);
     return result;
+    }
+    printf("gcd的结果不能是0");
 }
 int main()
 {
     int a,b;
     scanf("%d%d",&a,&b);
+    printf("%d",gcd(a,b));
     printf("%d",lcm(a,b));
     return 0;
 }
-//还是要自己手写变量变化规律来找代码漏洞!!!!
