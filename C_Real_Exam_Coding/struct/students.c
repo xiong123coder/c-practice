@@ -1,37 +1,36 @@
 #include<stdio.h>
-#define COURSE_NUM 3
+#define COU_NUM 3
 #define STU_NUM 3
 struct Student
 {
-     int id;
-     char name[20];
-     int scores[COURSE_NUM];   
+    int id;
+    char name[20];
+    int scores[COU_NUM];
 };
 int main()
 {
     struct Student students[STU_NUM];
     int totalscores=0;
     for(int i=0;i<STU_NUM;i++)
-    {
-        printf("请输入第%i个学生的信息:",i+1);
-        scanf("%d %s %d %d %d",
-        &students[i].id,
-        students[i].name,
-        &students[i].scores[0],
-        &students[i].scores[1],
-        &students[i].scores[2]);
-    }
-    for(int i=0;i<STU_NUM;i++)
-    {
+    {   
         int sum=0;
-        for(int j=0;j<COURSE_NUM;j++)
+        printf("请输入第%d个同学的信息:",i+1);
+        scanf("%d %s %d %d %d",
+                &students[i].id,
+                students[i].name,
+                &students[i].scores[0],
+                &students[i].scores[1],
+                &students[i].scores[2]
+        );
+        for(int j=0;j<COU_NUM;j++)
         {
             sum+=students[i].scores[j];
         }
+        printf("第%d个学生总分是%d\n",i+1,sum);
         totalscores+=sum;
     }
-    double avg=totalscores/3.0;
-    printf("三人平均分是:%.1f\n",avg);
+    double avg=totalscores/STU_NUM;
+    printf("三个学生的平均分是%.1f",avg);
 }
 /*
 id 是一个变量，它存放的是值。
