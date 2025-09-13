@@ -1,16 +1,20 @@
 #include<stdio.h>
 int gcd(int a,int b)
 {   
-    if(b==0)
+    while(a||b)
     {
-        printf("a:%d就是最大公约数\n",a);
-        return a;
+        if(b==0)
+        {
+            printf("a:%d就是最大公约数\n",a);
+            return a;
+        }
+        else
+        {   
+            printf("调用gcd(%d, %d)\n",b,a%b);
+            return gcd(b,a%b);
+        }
     }
-    else
-    {   
-        printf("调用gcd(%d, %d)\n",b,a%b);
-        return gcd(b,a%b);
-    }
+    printf("不能计算两个0的最大公约数！");
 }
 int main()
 {   
