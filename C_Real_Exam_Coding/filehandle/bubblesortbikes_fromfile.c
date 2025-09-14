@@ -1,36 +1,44 @@
 #include <stdio.h>
-
-struct tagBike { int id; int distance; float discount; };
+struct tagBike{int id;int distance;float discount;};
 struct tagBike arrayBikes[10];
+int readfile(struct tagBike a[])
+{
+    FILE *p=fopen("e:/shanghaigongchengjishu/Clearn/8.1/C_Real_Exam_Coding/filehandle/Bikes.txt","r");
 
-int ReadDataFromFile(struct tagBike a[]) {
-    FILE *fp = fopen("E:/shanghaigongchengjishu/Clearn/8.1/C_Real_Exam_Coding/filehandle/Bikes.txt", "r");
-    int n = 0;
-    while (n < 10 && fscanf(fp, "%d %d %f", &a[n].id, &a[n].distance, &a[n].discount) == 3) n++;
-    //n < 10保证最多只读 10 条，避免写爆数组 a[10]
-    //fscanf 的返回值 = 成功读到的字段数
-    fclose(fp);
-    for (int i = 0; i < n; i++)
-        printf("%d %d %.2f\n", a[i].id, a[i].distance, a[i].discount);
+    int n=0;
+    while(n<10&&fscanf(p,"%d %d %f",&a[n].id,&a[n].distance,&a[n].discount)==3)n++;
+    fclose(p);
+    for(int i=0;i<n;i++)
+    {
+        printf("%d %d %.2f\n",a[i].id,a[i].distance,a[i].discount);
+    }
     return n;
 }
-
-void SortByDistanceDiscont(struct tagBike a[], int n) {
-    for (int i = 0; i < n-1; i++)
-        for (int j = 0; j < n-1-i; j++)
-            if (a[j].distance > a[j+1].distance ||
-               (a[j].distance == a[j+1].distance && a[j].discount > a[j+1].discount)) {
-                struct tagBike t = a[j]; a[j] = a[j+1]; a[j+1] = t;
+void sortbikes(struct tagBike a[],int n)
+{
+    
+    for(int i=0;i<n-1;i++)
+        for(int j=0;j<n-1-i;j++)
+        {
+            if(a[j].distance>a[j+1].distance||(a[j].distance==a[j+1].distance&&a[j].discount>a[j+1].discount))
+            {
+                struct tagBike t=a[j];
+                a[j]=a[j+1];
+                a[j+1]=t;
             }
-    for (int i = 0; i < n; i++)
-        printf("%d %d %.2f\n", a[i].id, a[i].distance, a[i].discount);
+        }
+    for(int i=0;i<n;i++)
+    {
+        printf("%d %d %.2f\n",a[i].id,a[i].distance,a[i].discount);
+    }
 }
-
-int main(void) {
-    int n = ReadDataFromFile(arrayBikes);
-    SortByDistanceDiscont(arrayBikes, n);
+int main(void)
+{
+    int n=readfile(arrayBikes);
+    sortbikes(arrayBikes,n);
     return 0;
 }
+
 /*
 共享单车成功解决了公共交通的“最后一公里”难题和短途出行的问题。单车上装有定
 位
@@ -46,4 +54,9 @@ int main(void) {
 3）编写函数 SortByDistanceDiscont()，将数据按照单车距离从近到远，再按折扣率从
 底到高排列，并将数据打印出来。
 4）编写 main 函数，调用上述功能
+*/
+
+/*
+二分插入排序 = 插入排序 + 二分查找，优化了查找插入位置的效率，
+但无法减少元素移动，所以整体复杂度依然是 O(n²)
 */
