@@ -40,10 +40,8 @@ int main(void) {
         for (int j = i; j > pos; --j) a[j] = a[j-1];
         a[pos] = key;
     }
-
     // 最厉害的学生在 a[0]（稳定排序：并列时保留最靠前）
     printf("%s %d %d %d\n", a[0].name, a[0].chi, a[0].math, a[0].eng);
-
     free(a);
     return 0;
 }
