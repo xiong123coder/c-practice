@@ -1,47 +1,64 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#define MAX_NAME 64
-
+ 
+#define MAX_NAME 64 
+ 
 typedef struct {
     char name[MAX_NAME];
-    int  chi, math, eng;
-    int  sum;   // chi + math + eng
+    int chi, math, eng;
+    int sum;
 } Student;
-
-int main(void) {
-    int N;
-    if (scanf("%d", &N) != 1 || N <= 0) return 0;
-
-    Student *a = (Student*)malloc(sizeof(Student) * N);
-    if (!a) return 0;
-
-    for (int i = 0; i < N; ++i) {
+ 
+// 读取学生数据并计算总分 
+Student* read_students(int n) {
+    Student* a = (Student*)malloc(sizeof(Student) * n);
+    if (!a) return NULL;
+    
+    for (int i = 0; i < n; ++i) {
         if (scanf("%63s %d %d %d", a[i].name, &a[i].chi, &a[i].math, &a[i].eng) != 4) {
             free(a);
-            return 0;
+            return NULL;
         }
         a[i].sum = a[i].chi + a[i].math + a[i].eng;
     }
-
-    // 二分插入排序：按 sum 降序；相等时保持先来先留（稳定）
-    for (int i = 1; i < N; ++i) {
+    return a;
+}
+ 
+// 二分插入排序（稳定降序）
+void sort_students(Student* a, int n) {
+    for (int i = 1; i < n; ++i) {
         Student key = a[i];
         int low = 0, high = i;
-        // 找到“第一个 sum < key.sum”的位置
-        // 注意：相等时走到右侧，从而插到相等块后面 -> 稳定
+        
+        // 二分查找插入位置 
         while (low < high) {
             int mid = (low + high) >> 1;
-            if (a[mid].sum < key.sum) high = mid;
-            else                      low  = mid + 1;
+            if (a[mid].sum < key.sum)  
+                high = mid;
+            else 
+                low = mid + 1;
         }
-        int pos = low; // 插入位置
-        // 挪动区间 [pos, i-1] 右移一位
-        for (int j = i; j > pos; --j) a[j] = a[j-1];
+        
+        // 移动元素并插入 
+        int pos = low;
+        for (int j = i; j > pos; --j) 
+            a[j] = a[j - 1];
         a[pos] = key;
     }
-    // 最厉害的学生在 a[0]（稳定排序：并列时保留最靠前）
+}
+ 
+int main(void) {
+    int N;
+    if (scanf("%d", &N) != 1 || N <= 0) 
+        return 0;
+ 
+    Student* a = read_students(N);
+    if (!a) 
+        return 0;
+ 
+    sort_students(a, N);
     printf("%s %d %d %d\n", a[0].name, a[0].chi, a[0].math, a[0].eng);
+    
     free(a);
     return 0;
 }
