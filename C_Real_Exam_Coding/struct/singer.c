@@ -1,64 +1,47 @@
-#include <stdio.h>
-#include <stdlib.h>
-typedef struct
-{
-    char name[26];
-    int score[2];
-    float avg;
-}Singer;
-
-Singer *rf(int*count)
-{
-    Singer *singers=(Singer*)malloc(56*sizeof(Singer));
-    FILE *file = fopen("scores.txt", "r");
-    if (file == NULL)//错
+#include<stdio.h>
+#include<string.h>
+#define MAXSINGER 10
+typedef struct {char name[20];int sone;int stwo;int ave=0;}Singer;
+//假如在打开文件之前就已知有效个数为6
+Singer* read_file_sort(){
+    FILE*f=fopen("scores.txt","r");
+    if(f==NULL)return NULL;
+    Singer singers[MAXSINGER];
+    Singer temp;
+    for(int i=0;i<MAXSINGER;i++)
     {
-        perror("文件打开失败！");
-        return NULL;
+        if(fscanf("%19s %d %d",singers[i].name,&singers[i].sone,&singers[i].stwo)!=3)
+        {
+            fclose(f);
+            f=NULL;
+        }
+        singers[i].ave=singers[i].sone+singers[i].stwo;
     }
-    *count = 0;
-    while (*count < 56 && fscanf(file, "%26s %d %d", singers[*count].name,
-                                       &singers[*count].score[0],
-                                       &singers[*count].score[1]) == 3)//错，一开始用||而且fscanf不需要\n
-    {
-        
-        singers[*count].avg = (singers[*count].score[0]
-             + singers[*count].score[1])/2.0f;//错
-        printf("歌手：%s    评分：%d %d    平均分：%.2f\n", singers[*count].name,
-               singers[*count].score[0],
-               singers[*count].score[1],
-               singers[*count].avg);
-               (*count)++;//错
-    }
-    return singers;//错  更正：C函数只能返回一个值
-}
-
-void sort(Singer*singers,int n)
-{
-    for(int i=0;i<n;i++)
+    for(int i=0;i<5;i++)
     {
         int cur_max=i;
-        for(int j=i+1;j<n-1;j++)
+        for(int j=i+1;j<6;j++)
         {
-            if(singers[j].avg>singers[cur_max].avg)
+            if(singers[j].ave>singers[cur_max].ave)
             {
                 cur_max=j;
             }
         }
-        Singer temp=singers[cur_max];
+        temp=singers[cur_max];
         singers[cur_max]=singers[i];
         singers[i]=temp;
     }
-    printf("恭喜%s获得第一名,平均分是：%.2f",singers[0].name,singers[0].avg);
+    return singers;
 }
-int main()
-{   
-    int n;
-    Singer*singers=rf(&n);
-    if(singers!=NULL)
-    {
-        sort(singers,n);
-        free(singers);
-    }    
+
+int half(Singer s[],int n){
+    int low=0;int high=n-1;int mid;
+    while(low<=high){
+        mid=(low+high)/2;
+        if(s[mid])
+    }
+}
+int main(){
+    Singer*singers=read_file_sort();
     return 0;
 }
