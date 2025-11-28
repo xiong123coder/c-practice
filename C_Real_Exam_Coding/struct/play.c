@@ -45,7 +45,7 @@ int main(){
     
     if(pos!=-1)
     {
-        printf("找到%s啦,她的id是%d,成绩是%.2f\n",s[pos].name,s[pos].no,s[pos].score);
+        printf("找到%s啦,她的id是%d,100米跑出了%.2f秒的好成绩,nb烘烘\n",s[pos].name,s[pos].no,s[pos].score);
     }else{
         printf("没有找到该运动员");
     }
