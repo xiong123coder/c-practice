@@ -31,7 +31,7 @@ void select_sort(book b[],int n){
     {
         int cur_min=i;
         for(int j=i+1;j<n;j++){
-            if(b[j].pages<b[cur_min].pages||(b[j].pages==b[cur_min].pages&&[j].rating>b[cur_min].rating)){
+            if(b[j].pages<b[cur_min].pages||(b[j].pages==b[cur_min].pages&&b[j].rating>b[cur_min].rating)){
                 cur_min=j;
             }
         }
